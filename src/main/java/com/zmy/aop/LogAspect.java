@@ -16,11 +16,17 @@ import org.springframework.stereotype.Component;
 //表示这是一个切面
 @Aspect
 public class LogAspect {
+
+    @Pointcut("@annotation(Action)")
+    public void pointcut() {
+
+    }
+
     /**
      * 前置通知，在目标方法执行之前执行
      * @param joinPoint
      */
-    @Before("@annotation(Action)")
+    @Before("pointcut()")
     public void before(JoinPoint joinPoint) {
         String name = joinPoint.getSignature().getName();
         System.out.println(name + "方法开始执行了...");
@@ -30,7 +36,7 @@ public class LogAspect {
      * 后置通知，在目标方法执行之后执行
      * @param joinPoint
      */
-    @After("@annotation(Action)")
+    @After("pointcut()")
     public void after(JoinPoint joinPoint) {
         String name = joinPoint.getSignature().getName();
         System.out.println(name + "方法执行结束了...");
@@ -41,7 +47,7 @@ public class LogAspect {
      * @param joinPoint
      * @param r 返回的参数名称，和这里方法的参数名一一对应
      */
-    @AfterReturning(value = "@annotation(Action)", returning = "r")
+    @AfterReturning(value = "pointcut()", returning = "r")
     public void returning(JoinPoint joinPoint, Object r) {
         String name = joinPoint.getSignature().getName();
         System.out.println(name + "方法的返回通知：" + r);
@@ -52,7 +58,7 @@ public class LogAspect {
      * @param joinPoint
      * @param e 异常参数，和方法的参数名一一对应，注意异常的类型，
      */
-    @AfterThrowing(value = "@annotation(Action)", throwing = "e")
+    @AfterThrowing(value = "pointcut()", throwing = "e")
     public void afterThrowing(JoinPoint joinPoint, Exception e) {
         String name = joinPoint.getSignature().getName();
         System.out.println(name + "方法异常通知：" + e.getMessage());
@@ -63,10 +69,10 @@ public class LogAspect {
      * @param pjp
      * @return
      */
-    @Around("@annotation(Action)")
+    @Around("pointcut()")
     public Object around(ProceedingJoinPoint pjp) throws Throwable {
         //这个有点类似于method.invoke方法，我们可以在这个方法的前后分别添加日志，相当于前置后置通知
-        Object proceed = pjp.proceed(new Object[]{5, 5});
+        Object proceed = pjp.proceed();
         return proceed;
     }
 }
