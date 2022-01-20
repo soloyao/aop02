@@ -1,4 +1,4 @@
-package com.zmy.aop;
+package com.zmy.aop.service;
 
 import org.springframework.stereotype.Component;
 
@@ -11,7 +11,7 @@ import org.springframework.stereotype.Component;
  */
 @Component
 public class MyCalculatorImpl implements MyCalculator {
-    @Action
+//    @Action
     public Integer add(int a, int b) {
 //        int i = 1 / 0;
         System.out.println(a + "+" + b + "=" + (a + b));

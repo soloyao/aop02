@@ -17,7 +17,18 @@ import org.springframework.stereotype.Component;
 @Aspect
 public class LogAspect {
 
-    @Pointcut("@annotation(Action)")
+//    @Pointcut("@annotation(Action)")
+//    public void pointcut() {
+//
+//    }
+
+    /**
+     * 1.返回值类型
+     * 2.类名
+     * 3.方法名
+     * 4.方法参数类型
+     */
+    @Pointcut("execution(* com.zmy.aop.service.*.*(..))")
     public void pointcut() {
 
     }
